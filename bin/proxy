@@ -12,8 +12,11 @@ var version = require('../package.json').version;
 program
   .version(version)
   .option('-p, --port <n>', 'TCP port number to bind to. Defaults to 3128', 3128, Number)
+  .option('-l, --localIp <s>', 'Network interface send request from')
   .option('-a, --authenticate <command>', '"authenticate" command to run when "Proxy-Authorization" is given')
   .parse(process.argv);
+
+console.log(program);
 
 var http = require('http');
 var setup = require('../');
@@ -26,7 +29,7 @@ var basicAuthParser = require('basic-auth-parser');
  */
 
 var proxy = http.createServer();
-setup(proxy);
+setup(proxy, program);
 
 /**
  * Outbound proxy requests will use `agent: false`.

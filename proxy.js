@@ -26,7 +26,7 @@ var version  = require('./package.json').version;
  */
 
 module.exports = setup;
-
+var optionConfig = null;
 /**
  * Sets up an `http.Server` or `https.Server` instance with the necessary
  * "request" and "connect" event listeners in order to make the server act as an
@@ -39,6 +39,7 @@ module.exports = setup;
 
 function setup (server, options) {
   if (!server) server = http.createServer();
+  optionConfig = options;
   server.on('request', onrequest);
   server.on('connect', onconnect);
   return server;
@@ -203,6 +204,10 @@ function onrequest (req, res) {
       res.end('Only "http:" protocol prefix is supported\n');
       return;
     }
+
+    if (optionConfig.localIP)
+        parsed.localAddress = optionConfig.localIP;
+    console.log(parsed);
 
     var gotResponse = false;
     var proxyReq = http.request(parsed);
