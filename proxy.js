@@ -205,9 +205,8 @@ function onrequest (req, res) {
       return;
     }
 
-    if (optionConfig.localIP)
-        parsed.localAddress = optionConfig.localIP;
-    console.log(parsed);
+    if (optionConfig.localIp)
+        parsed.localAddress = optionConfig.localIp;
 
     var gotResponse = false;
     var proxyReq = http.request(parsed);
